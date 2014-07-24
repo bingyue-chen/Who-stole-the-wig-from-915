@@ -7,70 +7,78 @@
 #include "function.h"
 
 /***** init *****/
-formulas::formulas(){
-    this->setname( init_string );
-    this->setdescription( init_string );
-    this->setattack_amount( init_int );
-    this->setmp_amount( init_int );
-}
-
-formulas::formulas( string name ){
+character::character( string name , string description , int hp , int mp , int normal_attack ){
     this->setname( name );
-    this->setdescription( init_string );
-    this->setattack_amount( init_int );
-    this->setmp_amount( init_int );
-}
-
-formulas::formulas( string name , int attack_amount , int mp_amount ){
-    this->setname( name );
-    this->setdescription( init_string );
-    this->setattack_amount( attack_amount );
-    this->setmp_amount( mp_amount );
+    this->setdescription( description );
+    this->sethp( hp );
+    this->setmp( mp );
+    this->setnormal_attack( normal_attack );
+    this->setspecial_amount( 0 );
 }
 
 /***** set *****/
-void formulas::setname( string name ){
+void character::setname( string name ){
     this->name = name;
 }
 
-void formulas::setdescription( string description ){
+void character::setdescription( string description ){
     this->description = description;
 }
 
-void formulas::setattack_amount( int attack_amount ){
-    this->attack_amount = attack_amount;
+void character::sethp( int hp ){
+    this->hp = hp;
 }
 
-void formulas::setmp_amount( int mp_amount ){
-    this->mp_amount = mp_amount;
+void character::setmp( int mp ){
+    this->mp = mp;
+}
+
+void character::setnormal_attack( int normal_attack ){
+    this->normal_attack = normal_attack;
+}
+void character::setspecial_amount( int special_amount ){
+    this->special_amount = special_amount;
 }
 
 /***** get *****/
-string formulas::getname(){
+string character::getname(){
     return this->name;
 }
 
-string formulas::getdescription(){
+string character::getdescription(){
     return this->description;
 }
 
-int formulas::getattack_amount(){
-    return this->attack_amount;
+int character::gethp(){
+    return this->hp;
 }
 
-int formulas::getmp_amount(){
-    return this->mp_amount;
+int character::getmp(){
+    return this->mp;
+}
+
+int character::getnormal_attack(){
+    return this->normal_attack;
+}
+
+int character::getspecial_amount(){
+    return this->special_amount;
+}
+
+vector<formulas> character::getformulas(){
+    return this->vformulas;
 }
 
 /***** functional *****/
 
-string formulas::get_formulas_info(){
+void character::addformulas( formulas f){
+    this->vformulas.push_back( f );
+}
 
-    string s = "";
+int character::attack( int select_formulas_number ){
+    return 0;
+}
 
-    s = this->getname() + " : " + this->getdescription();
-    s += " , 攻擊力 : " + turn_int_to_string( this->getattack_amount() );
-    s += " , 耗魔量 : " + turn_int_to_string( this->getmp_amount() );
-
-    return s;
+int character::attacked( int attacked_amount ){
+    return 0;
 }

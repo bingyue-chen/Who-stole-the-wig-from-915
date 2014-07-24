@@ -6,71 +6,50 @@
 #ifndef __CHARACTER_BASIC_H__
 #define __CHARACTER_BASIC_H__
 
-#define init_int 0
-#define init_string ""
-
+#include "formulas.h"
 #include <vector>
 #include <string>
 
 using namespace std;
-
-class formulas{
-
-private:
-
-    string name,description;
-    int attack_amount,mp_amount;
-
-public:
-
-    formulas();
-    formulas( string name );
-    formulas( string name , int attack_amount , int mp_amount );
-
-    void setname( string name );
-    void setdescription( string description );
-    void setattack_amount( int attack_amount );
-    void setmp_amount( int mp_amount );
-
-    string getname();
-    string getdescription();
-    int getattack_amount();
-    int getmp_amount();
-
-    string get_formulas_info();
-
-};
 
 class character{
 
 private:
 
     string name,description;
-    int hp,mp;
+    int hp,mp,normal_attack,special_amount;
     vector<formulas> vformulas;
     bool check_hp();
     bool check_mp( int use_mp_amount );
+    bool check_special_amount();
 
 public:
 
-    character();
-    character( string name );
-    character( string name , int hp , int , int mp );
+    character( string name , string description , int hp , int mp , int normal_attack );
 
     void setname( string name );
     void setdescription( string description );
     void sethp( int hp );
     void setmp( int mp );
-    void setformulas( vector<formulas> vformulas );
+    void setnormal_attack( int normal_attack );
+    void setspecial_amount( int special_amount );
 
     string getname();
     string getdescription();
     int gethp();
     int getmp();
+    int getnormal_attack();
+    int getspecial_amount();
     vector<formulas> getformulas();
 
+    void addformulas( formulas f );
     int attack( int select_formulas_number );
     int attacked( int attacked_amount );
+
+    string print_formulas();
+    string print_attack();
+    string print_attacked();
+    string print_formulas_info();
 
 };
 
