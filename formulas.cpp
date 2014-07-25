@@ -7,28 +7,12 @@
 #include "function.h"
 
 /***** init *****/
-formulas::formulas(){
-    this->setname( init_string );
-    this->setdescription( init_string );
-    this->setattack_amount( init_int );
-    this->setmp_amount( init_int );
-    this->setstatus( init_int );
-}
-
-formulas::formulas( string name ){
+formulas( string name , string description , int status , int attack_amount , int mp_amount ){
     this->setname( name );
-    this->setdescription( init_string );
-    this->setattack_amount( init_int );
-    this->setmp_amount( init_int );
-    this->setstatus( init_int );
-}
-
-formulas::formulas( string name , int attack_amount , int mp_amount ){
-    this->setname( name );
-    this->setdescription( init_string );
+    this->setdescription( description );
+    this->setstatus( status );
     this->setattack_amount( attack_amount );
     this->setmp_amount( mp_amount );
-    this->setstatus( init_int );
 }
 
 /***** set *****/

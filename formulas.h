@@ -29,9 +29,7 @@ private:
 
 public:
 
-    formulas();
-    formulas( string name );
-    formulas( string name , int attack_amount , int mp_amount );
+    formulas( string name , string description , int status , int attack_amount , int mp_amount );
 
     void setname( string name );
     void setdescription( string description );
