@@ -7,7 +7,7 @@
 #include "function.h"
 
 /***** init *****/
-formulas( string name , string description , int status , int attack_amount , int mp_amount ){
+formulas::formulas( string name , string description , int status , int attack_amount , int mp_amount ){
     this->setname( name );
     this->setdescription( description );
     this->setstatus( status );
