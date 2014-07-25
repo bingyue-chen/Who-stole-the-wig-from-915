@@ -18,12 +18,11 @@ private:
 
     string name,description;
     int hp,mp,normal_attack,special_amount;
-    vector<formulas> vformulas;
+    vector<formulas*> vformulas;
     bool check_hp();
     bool check_mp( int use_mp_amount );
     bool check_special_amount();
-    string attack_info( );
-    string attacked_info( );
+    void attacked( int attacked_amount );
 
 public:
 
@@ -42,15 +41,16 @@ public:
     int getmp();
     int getnormal_attack();
     int getspecial_amount();
-    vector<formulas> getformulas();
+    vector<formulas*> getformulas();
 
-    void addformulas( formulas f );
-    int attack( int select_formulas_number  );
-    int attacked( int attacked_amount );
+    void addformulas( formulas* f );
+    int check_can_attack( int select_formulas_number );
+    string attack( int select_formulas_number , class character *attacked_character );
 
     string get_character_info();
     string get_formulas_info();
-
+    string attack_info( int status );
+    string attacked_info( );
 };
 
 #endif // __CHARACTER_BASIC_H__
