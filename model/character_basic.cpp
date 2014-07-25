@@ -7,13 +7,15 @@
 #include "function.h"
 
 /***** init *****/
-character::character( string name , string description , int hp , int mp , int normal_attack ){
+character::character( string name , string description , int hp , int mp , int normal_attack_amount ){
     this->setname( name );
     this->setdescription( description );
     this->sethp( hp );
     this->setmp( mp );
-    this->setnormal_attack( normal_attack );
+    this->setnormal_attack_amount( normal_attack_amount );
     this->setspecial_amount( 0 );
+    this->normal_attack = new formulas ( "normal attack" , "normal" , 0 , normal_attack_amount , 0 );
+    this->addformulas( normal_attack );
 }
 
 /***** set *****/
@@ -33,8 +35,8 @@ void character::setmp( int mp ){
     this->mp = mp;
 }
 
-void character::setnormal_attack( int normal_attack ){
-    this->normal_attack = normal_attack;
+void character::setnormal_attack_amount( int normal_attack_amount ){
+    this->normal_attack_amount = normal_attack_amount;
 }
 void character::setspecial_amount( int special_amount ){
     this->special_amount = special_amount;
@@ -57,8 +59,8 @@ int character::getmp(){
     return this->mp;
 }
 
-int character::getnormal_attack(){
-    return this->normal_attack;
+int character::getnormal_attack_amount(){
+    return this->normal_attack_amount;
 }
 
 int character::getspecial_amount(){
@@ -129,7 +131,6 @@ string character::get_character_info(){
     s = this->getname() + " : " + this->getdescription();
     s += " , hp : " + turn_int_to_string( this->hp );
     s += " , mp : " + turn_int_to_string( this->mp );
-    s += " , normal attack : " + turn_int_to_string( this->normal_attack );
     s += " , special amount : " + turn_int_to_string( this->special_amount );
 
     return s;
