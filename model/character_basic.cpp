@@ -18,6 +18,11 @@ character::character( string name , string description , int hp , int mp , int n
     this->addformulas( normal_attack );
 }
 
+/***** des *****/
+character::~character( ){
+    delete this->normal_attack;
+}
+
 /***** set *****/
 void character::setname( string name ){
     this->name = name;

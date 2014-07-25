@@ -28,6 +28,7 @@ private:
 public:
 
     character( string name , string description , int hp , int mp , int normal_attack_amount );
+    ~character( );
 
     void setname( string name );
     void setdescription( string description );
