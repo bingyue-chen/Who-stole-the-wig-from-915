@@ -42,13 +42,10 @@ int main(){
 	cout << c2->attack( 1 , c ) << endl;
 
 	cout << c->get_character_info() << endl;
-        cout << c2->get_character_info() << endl;
+    cout << c2->get_character_info() << endl;
 
 	delete c ;
 	delete c2;
-	delete f;
-	delete f2;
-	delete f3;
 
 	return 0;
 }

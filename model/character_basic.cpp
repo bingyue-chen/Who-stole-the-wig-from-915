@@ -20,7 +20,8 @@ character::character( string name , string description , int hp , int mp , int n
 
 /***** des *****/
 character::~character( ){
-    delete this->normal_attack;
+    for( int i = 0 ; i < this->vformulas.size() ; i++ )
+        delete this->vformulas[i];
 }
 
 /***** set *****/
