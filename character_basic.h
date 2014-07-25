@@ -22,6 +22,8 @@ private:
     bool check_hp();
     bool check_mp( int use_mp_amount );
     bool check_special_amount();
+    string attack_info( );
+    string attacked_info( );
 
 public:
 
@@ -43,13 +45,11 @@ public:
     vector<formulas> getformulas();
 
     void addformulas( formulas f );
-    int attack( int select_formulas_number );
+    int attack( int select_formulas_number  );
     int attacked( int attacked_amount );
 
-    string print_formulas();
-    string print_attack();
-    string print_attacked();
-    string print_formulas_info();
+    string get_character_info();
+    string get_formulas_info();
 
 };
 

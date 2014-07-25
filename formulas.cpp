@@ -64,11 +64,11 @@ string formulas::get_formulas_info(){
     string s = "";
 
     s = this->getname() + " : " + this->getdescription();
-    s += " , 攻擊力 : " + turn_int_to_string( this->getattack_amount() );
-    s += " , 耗魔量 : " + turn_int_to_string( this->getmp_amount() );
+    s += " , attack : " + turn_int_to_string( this->getattack_amount() );
+    s += " , mp : " + turn_int_to_string( this->getmp_amount() );
 
     if( this->getstatus() == 1 )
-        s += "( 此招式為爆氣值滿時才能使用 )";
+        s += "( specail amount full can use )";
 
     return s;
 }

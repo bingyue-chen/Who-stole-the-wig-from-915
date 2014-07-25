@@ -76,9 +76,70 @@ void character::addformulas( formulas f){
 }
 
 int character::attack( int select_formulas_number ){
-    return 0;
+
+    class formulas *f = NULL;
+
+    if( select_formulas_number < 0 || ( unsigned int )select_formulas_number > this->vformulas.size() )
+        return -1;
+
+    *f = this->vformulas[select_formulas_number-1];
+
+    if( !this->check_mp( f->getmp_amount() ) )
+        return -2;
+
+    if( f->getstatus() == 1 && !this->check_special_amount() )
+        return -3;
+
+    return f->getattack_amount();
+
 }
 
 int character::attacked( int attacked_amount ){
     return 0;
 }
+
+string character::get_character_info(){
+
+    string s = "";
+
+    s = this->getname() + " : " + this->getdescription();
+    s += " , hp : " + turn_int_to_string( this->hp );
+    s += " , mp : " + turn_int_to_string( this->mp );
+    s += " , normal attack : " + turn_int_to_string( this->normal_attack );
+    s += " , special amount : " + turn_int_to_string( this->special_amount );
+
+    return s;
+}
+
+string character::get_formulas_info(){
+
+    string s = "";
+
+    for( unsigned int i = 0 ; i < this->vformulas.size() ; i++ ){
+        s += turn_int_to_string( i + 1 ) + " : " + this->vformulas[i].get_formulas_info() + "\n";
+    }
+
+    return s;
+}
+
+string character::attack_info( ){
+    return "";
+}
+
+string character::attacked_info( ){
+    return "";
+}
+
+bool character::check_hp(){
+    return hp > 0;
+}
+
+bool character::check_mp( int use_mp_amount ){
+    return this->mp >= use_mp_amount;
+}
+
+bool character::check_special_amount(){
+    return this->special_amount >= 6;
+}
+
+
