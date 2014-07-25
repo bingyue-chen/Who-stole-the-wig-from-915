@@ -1,4 +1,9 @@
-#include "../model/character_basic.h"
+/******************************
+***  Update: 2014/07/25     ***
+***  By: snowcookie         ***
+******************************/
+
+#include "character_basic.h"
 #include <iostream>
 
 using namespace std;
