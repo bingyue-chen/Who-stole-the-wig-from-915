@@ -53,6 +53,10 @@ int formulas::getmp_amount(){
     return this->mp_amount;
 }
 
+int formulas::getstatus(){
+    return this->status;
+}
+
 /***** functional *****/
 
 string formulas::get_formulas_info(){
