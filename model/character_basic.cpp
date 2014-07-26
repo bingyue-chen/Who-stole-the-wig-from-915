@@ -10,6 +10,9 @@
 character::character( string name , string description , int hp , int mp , int normal_attack_amount ){
     this->setname( name );
     this->setdescription( description );
+    this->setattack_str( "" );
+    this->setattacked_str( "" );
+    this->setdead_str( "" );
     this->sethp( hp );
     this->setmp( mp );
     this->setnormal_attack_amount( normal_attack_amount );
@@ -20,7 +23,7 @@ character::character( string name , string description , int hp , int mp , int n
 
 /***** des *****/
 character::~character( ){
-    for( int i = 0 ; i < this->vformulas.size() ; i++ )
+    for( unsigned int i = 0 ; i < this->vformulas.size() ; i++ )
         delete this->vformulas[i];
 }
 
@@ -31,6 +34,17 @@ void character::setname( string name ){
 
 void character::setdescription( string description ){
     this->description = description;
+}
+
+void character::setattack_str( string attack_str ){
+    this->attack_str = attack_str;
+}
+void character::setattacked_str( string attacked_str ){
+    this->attacked_str = attacked_str;
+}
+
+void character::setdead_str( string dead_str ){
+    this->dead_str = dead_str;
 }
 
 void character::sethp( int hp ){
@@ -55,6 +69,17 @@ string character::getname(){
 
 string character::getdescription(){
     return this->description;
+}
+
+string character::getattack_str(){
+    return this->attack_str;
+}
+
+string character::getattacked_str(){
+    return this->attacked_str;
+}
+string character::getdead_str(){
+    return this->dead_str;
 }
 
 int character::gethp(){
@@ -87,6 +112,9 @@ int character::check_can_attack( int select_formulas_number ){
 
     class formulas *f = NULL;
 
+    if( this->hp <= 0 )
+        return 0;
+
     if( select_formulas_number <= 0 || ( unsigned int )select_formulas_number > this->vformulas.size() )
         return -1;
 
@@ -117,8 +145,15 @@ string character::attack( int select_formulas_number , class character *attacked
     attacked_character->setspecial_amount( attacked_character->getspecial_amount() + 1 );
 
     s = this->getname() + " using " + f->getname() + " to attack " + attacked_character->getname() + "\n";
+    if( this->attack_str != "" )
+        s += this->attack_str + "\n";
+    s += "\n";
 
     s += attacked_character->getname() + " was " + turn_int_to_string( f->getattack_amount() ) + " damage\n";
+    if( attacked_character->getattacked_str() != "" )
+        s += attacked_character->getattacked_str() + "\n";
+    if( attacked_character->gethp() == 0 && attacked_character->getdead_str() != "" )
+        s += attacked_character->getdead_str() + "\n";
 
     return s;
 
