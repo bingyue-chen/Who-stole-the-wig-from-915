@@ -17,7 +17,7 @@ class character{
 private:
 
     string name,description,attack_str,attacked_str,dead_str;
-    int hp,mp,normal_attack_amount,special_amount;
+    int number,hp,mp,normal_attack_amount,special_amount;
     vector<formulas*> vformulas;
     class formulas* normal_attack;
     bool check_hp();
@@ -27,7 +27,7 @@ private:
 
 public:
 
-    character( string name , string description , int hp , int mp , int normal_attack_amount );
+    character( int number , string name , string description , int hp , int mp , int normal_attack_amount );
     ~character( );
 
     void setname( string name );
@@ -35,6 +35,7 @@ public:
     void setattack_str( string attack_str );
     void setattacked_str( string attacked_str );
     void setdead_str( string dead_str );
+    void setnumber( int number );
     void sethp( int hp );
     void setmp( int mp );
     void setnormal_attack_amount( int normal_attack_amount );
@@ -45,6 +46,7 @@ public:
     string getattack_str();
     string getattacked_str();
     string getdead_str();
+    int getnumber();
     int gethp();
     int getmp();
     int getnormal_attack_amount();

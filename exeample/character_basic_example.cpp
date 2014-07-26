@@ -10,11 +10,11 @@ using namespace std;
 
 int main(){
 
-	class character *c = new character( "test" , "XDD" , 250 , 200 , 50 );
+	class character *c = new character( 1 , "test" , "XDD" , 250 , 200 , 50 );
 	class formulas *f = new formulas( "fire" ,"very hot" , 0 , 100 , 10 );
 	class formulas *f2 = new formulas( "light" , "very light" , 1 ,120 , 50 );
 
-	class character *c2 = new character( "test2" , "HI" , 300 , 150 , 55 );
+	class character *c2 = new character( 2 , "test2" , "HI" , 300 , 150 , 55 );
 	class formulas *f3 = new formulas( "forzen" , "very cool" , 0 , 100 , 10 );
 
 	cout << c->get_character_info() << endl;

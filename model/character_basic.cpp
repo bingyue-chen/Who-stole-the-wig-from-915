@@ -7,7 +7,8 @@
 #include "function.h"
 
 /***** init *****/
-character::character( string name , string description , int hp , int mp , int normal_attack_amount ){
+character::character( int number , string name , string description , int hp , int mp , int normal_attack_amount ){
+    this->setnumber( number );
     this->setname( name );
     this->setdescription( description );
     this->setattack_str( "" );
@@ -47,6 +48,10 @@ void character::setdead_str( string dead_str ){
     this->dead_str = dead_str;
 }
 
+void character::setnumber( int number ){
+     this->number = number;
+}
+
 void character::sethp( int hp ){
     this->hp = hp;
 }
@@ -80,6 +85,10 @@ string character::getattacked_str(){
 }
 string character::getdead_str(){
     return this->dead_str;
+}
+
+int character::getnumber(){
+    return this->number;
 }
 
 int character::gethp(){
