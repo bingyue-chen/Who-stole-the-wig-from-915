@@ -152,7 +152,7 @@ string character::attack( int select_formulas_number , class character *attacked
     s += attacked_character->getname() + " was " + turn_int_to_string( f->getattack_amount() ) + " damage\n";
     if( attacked_character->getattacked_str() != "" )
         s += attacked_character->getattacked_str() + "\n";
-    if( attacked_character->gethp() == 0 && attacked_character->getdead_str() != "" )
+    if( attacked_character->gethp() <= 0 && attacked_character->getdead_str() != "" )
         s += attacked_character->getdead_str() + "\n";
 
     return s;
