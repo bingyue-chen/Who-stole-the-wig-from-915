@@ -1,0 +1,24 @@
+1
+test
+XDD
+250 200 50
+
+
+
+fire 
+very hot
+0 100 10
+light
+very light
+1 120 50
+
+2
+test2
+HI
+300 150 55
+
+
+
+forzen
+very cool
+0 100 10
