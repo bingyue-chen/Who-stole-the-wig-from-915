@@ -1,0 +1,15 @@
+number
+name
+description
+hp mp normal_attack_amount
+attack_str
+attacked_str
+dead_str
+name
+description
+status attack_amount mp_amount
+name
+description
+status attack_amount mp_amount
+end
+
