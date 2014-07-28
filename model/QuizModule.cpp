@@ -1,4 +1,4 @@
-/*********************************
+ï»¿/*********************************
 **  Last modified : 2014.7.28   **
 *********************************/
 
@@ -39,7 +39,7 @@ void Question::showQuestion(){
     cout << "\t2." << this->option_2 << endl;
     cout << "\t3." << this->option_3 << endl;
     cout << "\t4." << this->option_4 << endl;
-    cout << "½Ð©ó10¬í¤º§@µª!\n[Ans]:";
+    cout << "è«‹æ–¼10ç§’å…§ä½œç­”!\n[Ans]:";
 }
 
 string Question::getDescription(){
@@ -205,9 +205,9 @@ bool Quiz::checkAns(int player_ans){
 
 void Quiz::showAnswerResult(bool bingo){
     if(bingo)
-        cout << "[O]¦^µª¥¿½T!½Ð¿ï¾Ü§ðÀ»¥dµP¡C" << endl;
+        cout << "[O]å›žç­”æ­£ç¢º!è«‹é¸æ“‡æ”»æ“Šå¡ç‰Œã€‚" << endl;
     else
-        cout << "¦^µª¿ù»~..." << endl;
+        cout << "å›žç­”éŒ¯èª¤..." << endl;
 }
 
 void Quiz::showQuestionMessage(){
