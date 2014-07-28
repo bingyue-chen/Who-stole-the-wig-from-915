@@ -1,7 +1,12 @@
+/******************************
+***  Update: 2014/07/28     ***
+***  By: bohunchen          ***
+******************************/
+
 #ifndef FIGHTING_H_INCLUDED
 #define FIGHTING_H_INCLUDED
 
-#include <character_basic>
+#include <character_basic.h>
 #include <string>
 #include <iostream>
 #include <cstdio>
@@ -14,16 +19,19 @@ private:
     character* cards[3]; /** cards info **/
 
     int boss_hp,challenger_hp; /** total hp **/
-    int boss_mp,cards_mp[3]; /**  total mp **/
-    int boss_current_hp,challenger_current_hp; /** current hp **/
+    int boss_mp_cnt,cards_mp_cnt[3]; /**  current mp **/
+    int boss_hp_cnt,challenger_hp_cnt; /** current hp **/
 
     int num_of_attacking_card;
+    int num_of_fomula;
     int num_of_challenger_answer;
+
+    int boss_special_cnt,cards_special_cnt[3];
 
     clock_t startTime,endTime;
 
 public:
-    fight(character* boss,character** card,int card_size);
+    fight(character* boss,character* card[3],int card_size);
     void setboss();
     void setchallenger();
 
@@ -31,7 +39,7 @@ public:
     void set_fomula(int i);
 
     /**  Unfinished part **/
-    void set_question();
+    void set_question(int i);
     /**********************/
 
     void set_answer(int i);
@@ -48,14 +56,19 @@ public:
     void show_boss_attack();
     void show_challenger_attack();
     void show_current_state();
+    void show_special_power();
     void show_looser(); /** show the losser's string **/
     void show_reward();
 
+    int getboss_num_of_fomula();
+
+
     bool IsTime_run_out();
     bool IsAC();
-
     bool IsBossGG();
     bool IsChallengerGG();
+    bool IsBossFull();
+    bool IsCardsFull(int i);
 
     ~fight();
 protected:
