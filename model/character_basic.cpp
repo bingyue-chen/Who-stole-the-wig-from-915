@@ -1,10 +1,9 @@
 /******************************
-***  Update: 2014/07/26     ***
+***  Update: 2014/07/29     ***
 ***  By: snowcookie         ***
 ******************************/
 
 #include "character_basic.h"
-#include "function.h"
 
 /***** init *****/
 character::character( int number , string name , string description , int hp , int mp , int normal_attack_amount ){

@@ -1,10 +1,9 @@
 /******************************
-***  Update: 2014/07/25     ***
+***  Update: 2014/07/29     ***
 ***  By: snowcookie         ***
 ******************************/
 
 #include "formulas.h"
-#include "function.h"
 
 /***** init *****/
 formulas::formulas( string name , string description , int status , int attack_amount , int mp_amount ){

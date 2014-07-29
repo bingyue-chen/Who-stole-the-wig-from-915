@@ -7,7 +7,6 @@
 #define __CHARACTER_DATABASE_H__
 
 #include "character_basic.h"
-#include "function.h"
 #include <vector>
 #include <string>
 #include <sstream>

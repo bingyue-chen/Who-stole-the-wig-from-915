@@ -1,5 +1,5 @@
 /******************************
-***  Update: 2014/07/25     ***
+***  Update: 2014/07/29     ***
 ***  By: snowcookie         ***
 ******************************/
 
@@ -9,6 +9,7 @@
 #define init_int 0
 #define init_string ""
 
+#include "function.h"
 #include <vector>
 #include <string>
 
