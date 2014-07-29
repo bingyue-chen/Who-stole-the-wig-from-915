@@ -1,5 +1,5 @@
 /******************************
-***  Update: 2014/07/27     ***
+***  Update: 2014/07/29     ***
 ***  By: snowcookie         ***
 ******************************/
 
@@ -20,4 +20,18 @@ int turn_string_to_int( string s ){
     ss << s;
     ss >> n;
     return n;
+}
+
+bool read_whole_file_to_stringstream( stringstream &ss , const char* filepath ){
+
+    ifstream in( filepath );
+
+    if( in.fail() )
+            return false;
+
+    ss << in.rdbuf();
+
+    in.close();
+
+    return true;
 }

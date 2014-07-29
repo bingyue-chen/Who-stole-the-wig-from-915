@@ -1,5 +1,5 @@
 /******************************
-***  Update: 2014/07/27     ***
+***  Update: 2014/07/29     ***
 ***  By: snowcookie         ***
 ******************************/
 
@@ -7,9 +7,10 @@
 #define __CHARACTER_DATABASE_H__
 
 #include "character_basic.h"
+#include "function.h"
 #include <vector>
-#include <fstream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -18,9 +19,8 @@ class character_database{
 private:
 
     vector<character*> vcharacter;
-    ifstream ifs;
+    stringstream ss;
     character* read_character( );
-    bool check_file_open();
     int charater_size;
 
 public:
