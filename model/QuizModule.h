@@ -1,5 +1,5 @@
-/*********************************
-**  Last modified : 2014.7.28   **
+﻿/*********************************
+**  Last modified : 2014.7.30   **
 *********************************/
 
 #ifndef QUIZMODULE_H_INCLUDED
@@ -59,11 +59,10 @@ class Quiz{
             void nextQuestion();             : change question
         */
         Quiz();
-        Quiz(int boss_number, int n);//read quiz file, store questions and generate radom question order
+        Quiz(string boss_name, int n);//read quiz file, store questions and generate radom question order
         ~Quiz();
-        void setQuizFile(int boss_number);
-        void setQuizFileName(int boss_number);
-        void setInputFileStream(int boss_number);
+        void setQuizFile(string boss_name);
+        void setInputFileStream(string boss_name);
         void readQuizData();
         void setRandomNumber();
         void setQuestionIndex(int index);
