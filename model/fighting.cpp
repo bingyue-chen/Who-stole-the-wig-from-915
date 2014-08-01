@@ -1,5 +1,5 @@
 /******************************
-***  Update: 2014/07/28     ***
+***  Update: 2014/08/01     ***
 ***  By: bohunchen          ***
 ******************************/
 
@@ -163,7 +163,7 @@ void fight::show_reward(){
 void fight::show_current_state(){
     cout<<"[" << boss->getname() << "]  HP : "<< boss_hp_cnt<<+ "  MP :¡@"<<boss_mp_cnt<<" Special amount : "<<boss_special_cnt<<"\n";
     cout<<"[challenger]  HP : "<<challenger_hp_cnt<<"\n";
-    if(IsBossGG()||IsChallengerGG)
+    if(IsBossGG()||IsChallengerGG())
         show_looser();
 }
 
@@ -175,10 +175,12 @@ bool fight::IsChallengerGG(){
     return (challenger_hp_cnt<=0);
 }
 bool fight::IsBossFull(){
-    return (boss_special_cnt==boss->special_amount);
+    return (boss_special_cnt==boss->getspecial_amount());
 }
 bool fight::IsCardsFull(int i){
-    return (cards_special_cnt[i]==cards[i].special_amount);
+    if(cards_special_cnt[i]==cards[i]->getspecial_amount())
+        return true;
+    return false;
 }
 bool fight::IsTime_run_out(){
     /** waiting to complete **/
