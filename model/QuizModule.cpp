@@ -1,5 +1,5 @@
 ﻿/*********************************
-**  Last modified : 2014.7.28   **
+**  Last modified : 2014.7.30   **
 *********************************/
 
 #include "QuizModule.h"
@@ -69,56 +69,40 @@ Question::~Question(){
 
 }
 
-Quiz::Quiz(int boss_number, int n){
-    this->setQuizFile(boss_number);
+Quiz::Quiz(string boss_name, int n){
+    this->setQuizFile(boss_name);
     this->setRandomNumber();
 }
 
-void Quiz::setQuizFile(int boss_number){
+void Quiz::setQuizFile(string boss_name){
     //First, open the corresponding file to set ifs
-    this->setInputFileStream(boss_number);
+    this->setInputFileStream(boss_name);
 
     //Second, set ifs successfully, start read file and store data
     this->readQuizData();
 }
 
-void Quiz::setInputFileStream(int boss_number){
-    //...UNDER DEVELOPING...
+void Quiz::setInputFileStream(string boss_name){
     //find boss name using character module
-    this->quiz_file_name = "Q915.txt";
-    this->ifs.open("Q915.txt", ifstream::in);
+    this->quiz_file_name = "Q" + boss_name + ".txt";
+    this->ifs.open(this->quiz_file_name.c_str(), ifstream::in);
     if(ifs.fail()){
         cout << "Error! No such questions about the boss..." << endl;
         //ifs.open("general_quiz.txt");
     }
-    /*
-        setQuizFileName(boss_number);
-    */
-}
-
-void Quiz::setQuizFileName(int boss_number){
-    //...UNDER DEVELOPING...
-    //find boss name using character module
-    string file_name;
-    string boss_name;
-
-    //.........BOSS NAME............
-
-    file_name = "Q" + boss_name + ".txt";
-    this->quiz_file_name = file_name;
 }
 
 void Quiz::readQuizData(){
     int number_of_questions;
     string desc, opt1, opt2, opt3, opt4;
     int ans;
-    string nl;//store new line
+    char nl;//store new line
 
     //read first line, the total number of questions
     this->ifs >> number_of_questions;
     this->setQuizTotalNumber(number_of_questions);
 
-    getline(ifs, nl);//store new line character
+    ifs.get(nl);//store new line character
     //use for loop to add the Question into question(vector<class Question>)
     for(int i=0; i < this->quiz_total_number ; i++){
         getline(ifs, desc);
@@ -127,7 +111,7 @@ void Quiz::readQuizData(){
         getline(ifs, opt3);
         getline(ifs, opt4);
         this->ifs >> ans;
-        getline(ifs, nl);//store new line character
+        ifs.get(nl);//store new line character
 
         this->question.push_back(Question(i, desc, opt1, opt2, opt3, opt4, ans));
     }
@@ -205,9 +189,9 @@ bool Quiz::checkAns(int player_ans){
 
 void Quiz::showAnswerResult(bool bingo){
     if(bingo)
-        cout << "[O]回答正確!請選擇攻擊卡牌。" << endl;
+        cout << "[O][O]回答正確!請選擇攻擊卡牌。" << endl;
     else
-        cout << "回答錯誤..." << endl;
+        cout << "[X]回答錯誤..." << endl;
 }
 
 void Quiz::showQuestionMessage(){

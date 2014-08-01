@@ -1,5 +1,5 @@
 /******************************
-***  Update: 2014/07/27     ***
+***  Update: 2014/07/29     ***
 ***  By: snowcookie         ***
 ******************************/
 
@@ -7,13 +7,11 @@
 
 /***** init *****/
 character_database::character_database(){
-    ifs.open( "../data/character.txt" , ifstream::in );
     this->charater_size = 0;
 }
 
 /***** des *****/
 character_database::~character_database(){
-    ifs.close();
     for( unsigned int i = 0 ; i < this->vcharacter.size() ; i++ )
         delete this->vcharacter[i];
 }
@@ -28,20 +26,16 @@ int character_database::get_charater_size(){
 
 int character_database::read_character_data(){
 
-    if( !this->check_file_open() )
+    if( !read_whole_file_to_stringstream( this->ss , "../data/character.txt" ) )
         return -1;
 
-    while( ifs.good() ){
+    while( ss.good() ){
         this->vcharacter.push_back( this->read_character() );
     }
 
     this->charater_size = this->vcharacter.size();
 
     return 1;
-}
-
-bool character_database::check_file_open(){
-    return this->ifs.is_open();
 }
 
 character* character_database::read_character( ){
@@ -52,26 +46,26 @@ character* character_database::read_character( ){
     int number,hp,mp,normal_attack_amount,status,attack_amount,mp_amount;
     char cc;
 
-    ifs >> number;
-    ifs.get( cc );
-    getline( ifs , name );
-    getline( ifs , description );
-    ifs >> hp >> mp >> normal_attack_amount;
-    ifs.get( cc );
-    getline( ifs , attack_str );
-    getline( ifs , attacked_str );
-    getline( ifs , dead_str );
+    ss >> number;
+    ss.get( cc );
+    getline( ss , name );
+    getline( ss , description );
+    ss >> hp >> mp >> normal_attack_amount;
+    ss.get( cc );
+    getline( ss , attack_str );
+    getline( ss , attacked_str );
+    getline( ss , dead_str );
 
     c = new character( number , name , description , hp , mp , normal_attack_amount );
     c->setattack_str( attack_str );
     c->setattacked_str( attacked_str );
     c->setdead_str( dead_str );
 
-    while( ifs.good() && getline( ifs , name ) && name.compare("") != 0 ){
+    while( ss.good() && getline( ss , name ) && name.compare("") != 0 ){
 
-        getline( ifs , description );
-        ifs >> status >> attack_amount >> mp_amount;
-        ifs.get( cc );
+        getline( ss , description );
+        ss >> status >> attack_amount >> mp_amount;
+        ss.get( cc );
 
         f = new class formulas( name , description , status , attack_amount , mp_amount );
         c->addformulas( f );

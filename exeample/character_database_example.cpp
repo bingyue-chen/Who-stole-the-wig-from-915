@@ -16,6 +16,9 @@ int main(){
         for( int i = 1 ; i <= cd.get_charater_size() ; i++ ){
             c = cd.get_character( i );
             cout << c->get_character_info() << endl;
+            cout << c->getattack_str() << endl;
+            cout << c->getattacked_str() << endl;
+            cout << c->getdead_str() << endl;
             cout << c->get_formulas_info() << endl;
         }
     }
