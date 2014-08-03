@@ -1,5 +1,5 @@
 ﻿/*********************************
-**  Last modified : 2014.7.30   **
+**  Last modified : 2014.8.3   **
 *********************************/
 
 #include "QuizModule.h"
@@ -127,7 +127,7 @@ void Quiz::setRandomNumber(){
     //Because quiz_total_number is set before this function,
     //so we can use this variable
     int vector_size = quiz_total_number;
-    int number[vector_size];
+    int* number = new int[vector_size];
     int n;//random number
 
     for(int i=0; i < vector_size; i++)
@@ -148,6 +148,8 @@ void Quiz::setRandomNumber(){
 
     //set up question number
     this->setQuestionIndex(this->getRandomQuestionNumber());
+
+    delete [] number;
 }
 
 void Quiz::setQuestionIndex(int index){
@@ -189,7 +191,7 @@ bool Quiz::checkAns(int player_ans){
 
 void Quiz::showAnswerResult(bool bingo){
     if(bingo)
-        cout << "[O][O]回答正確!請選擇攻擊卡牌。" << endl;
+        cout << "[O]回答正確!請選擇攻擊卡牌。" << endl;
     else
         cout << "[X]回答錯誤..." << endl;
 }
