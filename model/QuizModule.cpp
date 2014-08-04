@@ -3,6 +3,7 @@
 *********************************/
 
 #include "QuizModule.h"
+#include "function.h"
 #define QUESTION_MAX_LENGTH 300
 #define OPTION_MAX_LENGTH 150
 
@@ -75,21 +76,22 @@ Quiz::Quiz(string boss_name, int n){
 }
 
 void Quiz::setQuizFile(string boss_name){
-    //First, open the corresponding file to set ifs
-    this->setInputFileStream(boss_name);
-
-    //Second, set ifs successfully, start read file and store data
-    this->readQuizData();
+    //First, open the corresponding file to set ss
+    if(this->setInputFileStream(boss_name))
+        //Second, set ss successfully, start read file and store data
+        this->readQuizData();
+    else
+        cout << "Error! No such questions about the boss..." << endl;
 }
 
-void Quiz::setInputFileStream(string boss_name){
+bool Quiz::setInputFileStream(string boss_name){
     //find boss name using character module
     this->quiz_file_name = "Q" + boss_name + ".txt";
-    this->ifs.open(this->quiz_file_name.c_str(), ifstream::in);
-    if(ifs.fail()){
-        cout << "Error! No such questions about the boss..." << endl;
-        //ifs.open("general_quiz.txt");
-    }
+
+    if(!read_whole_file_to_stringstream(this->ss, this->quiz_file_name.c_str()))
+        return false;
+
+    return true;
 }
 
 void Quiz::readQuizData(){
@@ -99,24 +101,22 @@ void Quiz::readQuizData(){
     char nl;//store new line
 
     //read first line, the total number of questions
-    this->ifs >> number_of_questions;
+    this->ss >> number_of_questions;
     this->setQuizTotalNumber(number_of_questions);
 
-    ifs.get(nl);//store new line character
+    ss.get(nl);//store new line character
     //use for loop to add the Question into question(vector<class Question>)
     for(int i=0; i < this->quiz_total_number ; i++){
-        getline(ifs, desc);
-        getline(ifs, opt1);
-        getline(ifs, opt2);
-        getline(ifs, opt3);
-        getline(ifs, opt4);
-        this->ifs >> ans;
-        ifs.get(nl);//store new line character
+        getline(ss, desc);
+        getline(ss, opt1);
+        getline(ss, opt2);
+        getline(ss, opt3);
+        getline(ss, opt4);
+        this->ss >> ans;
+        ss.get(nl);//store new line character
 
         this->question.push_back(Question(i, desc, opt1, opt2, opt3, opt4, ans));
     }
-
-    this->ifs.close();
 }
 
 void Quiz::setQuizTotalNumber(int total_num){
