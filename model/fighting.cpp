@@ -76,7 +76,7 @@ void fight::show_question(){
     quiz->showQuestionMessage();
 }
 
-int fight::getboss_num_of_fomula(){
+int fight::getboss_num_of_formulas(){
     if( boss_hp_cnt>(0.5*boss_hp) )
         return 0;
     else return 1;
@@ -90,8 +90,11 @@ void fight::show_boss_attack(){
     class formulas *f = NULL;
     vformulas=boss->getformulas();
 
-    f = vformulas[getboss_num_of_fomula()];
+    f = vformulas[getboss_num_of_formulas()];
 
+    if( boss_mp_cnt < f->getmp_amount() ){  /** checking mp **/
+        f=vformulas[getboss_num_of_formulas()-1];
+    }
     boss_mp_cnt-= f->getmp_amount(); /** mp cost **/
 
     s = boss->getname() + " using " + f->getname() + " to attack you "+ "\n";  /** show attack info**/
@@ -106,11 +109,12 @@ void fight::show_boss_attack(){
         challenger_hp_cnt=0;
 
     for(int i=0;i<3;i++){  /** cards_special_cnt +1 **/
-        cards_special_cnt[i]++;
+        if(!IsCardsFull(i))
+            cards_special_cnt[i]++;
     }
 }
 
-void fight::show_challenger_attack(){
+bool fight::show_challenger_attack(){   /**  False means mp not enough ,and you have to choose formula again.**/
     string s = "";
     vector<formulas*> vformulas;
     class formulas *f = NULL;
@@ -118,20 +122,27 @@ void fight::show_challenger_attack(){
 
     f = vformulas[num_of_fomula-1];
 
-    cards_mp_cnt[num_of_attacking_card-1]-= f->getmp_amount();
+    if(f->getmp_amount()>cards_mp_cnt[num_of_attacking_card]){  /**checking mp**/
+        cout<<"The mp of cards isn't enough !"
+        return false;
+    }
 
-    s = cards[num_of_attacking_card-1]->getname() + " using " + f->getname() + " to attack "+boss->getname()+ "\n";
+
+    cards_mp_cnt[num_of_attacking_card-1]-= f->getmp_amount(); /** mp cost **/
+
+    s = cards[num_of_attacking_card-1]->getname() + " using " + f->getname() + " to attack "+boss->getname()+ "\n"; /** attack info**/
     if( cards[num_of_attacking_card-1]->getattack_str() != "" )
         s += cards[num_of_attacking_card-1]->getattack_str() + "\n";
     s += "\n";
 
     s += boss->getname()+" were under attack by" + turn_int_to_string( f->getattack_amount() ) + " damage ! \n";
 
-    boss_hp_cnt-= f->getattack_amount();  /** the attacked hp of boss **/
+    boss_hp_cnt-= f->getattack_amount();  /**  hp of boss cost **/
     if(boss_hp_cnt<=0)
         boss_hp_cnt=0;
-
-    boss_special_cnt++; /** boss_special_cnt++ **/
+    if(!IsBossFull())
+        boss_special_cnt++; /** boss_special_cnt++ **/
+    return true;
 }
 
 void fight::show_loser(){
@@ -162,9 +173,11 @@ bool fight::IsBossGG(){
 bool fight::IsChallengerGG(){
     return (challenger_hp_cnt<=0);
 }
+
 bool fight::IsBossFull(){
     return (boss_special_cnt==boss->getspecial_amount());
 }
+
 bool fight::IsCardsFull(int i){
     if(cards_special_cnt[i]==cards[i]->getspecial_amount())
         return true;
