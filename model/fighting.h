@@ -67,7 +67,7 @@ public:
     int getboss_num_of_fomula();
 
 
-
+    void next_problem();
 
 
 
