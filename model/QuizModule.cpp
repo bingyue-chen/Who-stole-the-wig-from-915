@@ -86,7 +86,7 @@ void Quiz::setQuizFile(string boss_name){
 
 bool Quiz::setInputFileStream(string boss_name){
     //find boss name using character module
-    this->quiz_file_name = "Q" + boss_name + ".txt";
+    this->quiz_file_name = "data/Q" + boss_name + ".txt";
 
     if(!read_whole_file_to_stringstream(this->ss, this->quiz_file_name.c_str()))
         return false;
