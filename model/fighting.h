@@ -58,13 +58,13 @@ public:
     void show_question();
     void show_answer();
     void show_boss_attack();
-    void show_challenger_attack();
+    bool show_challenger_attack();  /**  False means mp not enough ,and you have to choose formula again.**/
     void show_current_state();
     void show_special_power();
     void show_loser(); /** show the loser's string **/
     void show_reward();
 
-    int getboss_num_of_fomula();
+    int getboss_num_of_formulas();
 
 
     void next_problem();
@@ -76,6 +76,7 @@ public:
     bool IsChallengerGG();
     bool IsBossFull();
     bool IsCardsFull(int i);
+    bool IsCardsMpEnough(int num_of_fomula,int num_of_attacking_card);
 
     ~fight();
 protected:
