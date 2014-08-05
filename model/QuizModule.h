@@ -6,7 +6,7 @@
 #define QUIZMODULE_H_INCLUDED
 
 #include <iostream>
-#include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -41,11 +41,11 @@ class Question{
 class Quiz{
     private:
         /*
-            ifs                 : read quiz file
+            ss                  : read quiz file
             quiz_file_name      : decide which quiz file to open
             quiz_total_number   : the total amounts of questions
         */
-        ifstream ifs;
+        stringstream ss;
         string quiz_file_name;
         int quiz_total_number;
         int question_index;
@@ -62,7 +62,7 @@ class Quiz{
         Quiz(string boss_name, int n);//read quiz file, store questions and generate radom question order
         ~Quiz();
         void setQuizFile(string boss_name);
-        void setInputFileStream(string boss_name);
+        bool setInputFileStream(string boss_name);
         void readQuizData();
         void setRandomNumber();
         void setQuestionIndex(int index);
