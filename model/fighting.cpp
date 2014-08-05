@@ -203,3 +203,7 @@ void fight::show_answer(){
    else
         quiz->showAnswerResult(c);
 }
+
+void fight::next_problem(){
+    quiz->nextQuestion();
+}
