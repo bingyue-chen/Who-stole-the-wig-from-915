@@ -1,5 +1,5 @@
 /*********************************
-*     Last modified:2014/8/3     *
+*     Last modified:2014/8/5     *
 *********************************/
 
 #include "CardPackage.h"
@@ -8,60 +8,45 @@ FightingTeam::FightingTeam(){}
 FightingTeam::~FightingTeam(){}
 
 void FightingTeam::setCard_1(character* card){
-    this->card_1 = card;
+    this->card[0] = card;
 }
 
 void FightingTeam::setCard_2(character* card){
-    this->card_2 = card;
+    this->card[1] = card;
 }
 
 void FightingTeam::setCard_3(character* card){
-    this->card_3 = card;
+    this->card[2] = card;
 }
 
 character* FightingTeam::getCard_1(){
-    return this->card_1;
+    return this->card[0];
 }
 
 character* FightingTeam::getCard_2(){
-    return this->card_2;
+    return this->card[1];
 }
 
 character* FightingTeam::getCard_3(){
-    return this->card_3;
-}
-
-void FightingTeam::showCardInfo(int i){
-    character* c;
-
-    if(i == 1)
-        c = this->card_1;
-    else if(i == 2)
-        c = this->card_2;
-    else if(i == 3)
-        c = this->card_3;
-    else{
-        cout << "Sorry... Input number error!" << endl;
-        cout << "Please enter 1, 2 or 3 next time." << endl;
-        return;
-    }
-
-    cout << c->get_character_info() << endl;
+    return this->card[2];
 }
 
 void FightingTeam::showFightingCardsName(){
     cout << "Current fighting cards:" << endl;
-    cout << "\t1." << this->card_1->getname() << endl;
-    cout << "\t2." << this->card_2->getname() << endl;
-    cout << "\t3." << this->card_3->getname() << endl;
+    cout << "\t1." << this->card[0]->getname() << endl;
+    cout << "\t2." << this->card[1]->getname() << endl;
+    cout << "\t3." << this->card[2]->getname() << endl;
     cout << endl;
 }
 
-CardPackage::CardPackage(){}
+CardPackage::CardPackage(class character_database* db){
+    this->card_db = db;
+}
+
 CardPackage::~CardPackage(){}
 
-void CardPackage::addNewCard(character* new_card){
-    this->card_group.push_back(new_card);
+void CardPackage::addNewCard(int card_number){
+    this->card_group.push_back(card_number);
 }
 
 void CardPackage::changeCard(){
@@ -87,6 +72,7 @@ void CardPackage::changeCard(){
 
 void CardPackage::setFightingTeam(){
     int c1, c2, c3;
+    character* card;
 
     this->showCardsInPackage();
     cout << "Select 3 cards you want, and input their number." << endl;
@@ -98,13 +84,27 @@ void CardPackage::setFightingTeam(){
     cin >> c3;
     cout << endl;
 
-    this->fighting_team.setCard_1(this->card_group.at(c1));
-    this->fighting_team.setCard_2(this->card_group.at(c2));
-    this->fighting_team.setCard_3(this->card_group.at(c3));
+    if(!IsTwoNumberTheSame(c1, c2, c3)){
+        cout << "Sorry! At least two of the number you input are the same..." << endl;
+        cout << "Please input three numbers which are different from each other." << endl;
+    }
+    else{
+        //Set card[0] in fighting team
+        card = this->getCardInDB(c1-1);
+        this->fighting_team.setCard_1(card);
+
+        //Set card[1] in fighting team
+        card = this->getCardInDB(c2-1);
+        this->fighting_team.setCard_2(card);
+
+        //Set card[2] in fighting team
+        card = this->getCardInDB(c3-1);
+        this->fighting_team.setCard_3(card);
+    }
 }
 
 void CardPackage::setOneFightingCard(){
-    int card_number, replace_number;
+    int number_in_card_group, replace_number;
     character* card;
 
     this->fighting_team.showFightingCardsName();
@@ -113,8 +113,15 @@ void CardPackage::setOneFightingCard(){
 
     this->showCardsNotInFighting();
     cout << "Which card to go fighting:";
-    cin >> card_number;
-    card = this->card_group.at(card_number);
+    cin >> number_in_card_group;
+
+    if(this->IsRemainNumberInCardGroup(number_in_card_group))
+        card = this->getCardInDB(number_in_card_group-1);
+    else{
+        //player doesn't input at the correct range, print error message and return directly.
+        cout << "Error! Please input the remain card's number which is not in fighting team." << endl;
+        return;
+    }
 
     if(replace_number == 1)
         this->fighting_team.setCard_1(card);
@@ -123,28 +130,36 @@ void CardPackage::setOneFightingCard(){
     else if(replace_number == 3)
         this->fighting_team.setCard_3(card);
     else
-        cout << "Error! Please input correct number." << endl;
+        cout << "Error! Please input correct number 1, 2 or 3." << endl;
 }
 
 void CardPackage::showCardsInPackage(){
+    character* card;
+
     cout << "Cards in Package:" << endl;
-
-    for(int i=0; i < this->card_group.size(); i++)
-        cout << i << ". " << this->card_group.at(i)->getname() << endl;
-}
-
-void CardPackage::showCardsNotInFighting(){
-    cout << "Cards in Package(without cards in fighting team):" << endl;
-
-    for(int i=0; i < this->card_group.size(); i++){
-        if(this->IsInTeam(this->card_group.at(i)))
-            continue;
-        else
-            cout << "\t" << i << ". " << this->card_group.at(i)->getname() << endl;
+    for(unsigned int i=1; i <= this->card_group.size(); i++){
+        card = this->getCardInDB(i-1);
+        cout << i << ". " << card->getname() << endl;
     }
 }
 
-bool CardPackage::IsInTeam(character* card){
+void CardPackage::showCardsNotInFighting(){
+    character* card;
+
+    cout << "Cards in Package(without cards in fighting team):" << endl;
+    for(unsigned int i=1; i <= this->card_group.size(); i++){
+        if(this->IsInTeam(i-1))
+            continue;
+        else{
+            card = this->getCardInDB(i-1);
+            cout << "\t" << i << ". " << card->getname() << endl;
+        }
+    }
+}
+
+bool CardPackage::IsInTeam(int i){
+    character* card = this->getCardInDB(i);
+
     if(card == this->fighting_team.getCard_1())
         return true;
     else if(card == this->fighting_team.getCard_2())
@@ -163,16 +178,52 @@ void CardPackage::seeOneCardInfo(){
     cout << "Card number:";
     cin >> number;
 
-    if((0 <= number) && (number < this->card_group.size()))
-        this->showSelectedCardInfo(number);
+    if((1 <= number) && ((unsigned int)number <= this->card_group.size()))
+        this->showSelectedCardInfo(number-1);
     else
         cout << "Error! Please input correct number." << endl;
 }
 
 void CardPackage::showSelectedCardInfo(int i){
-    cout << this->card_group.at(i)->get_character_info() << endl;
+    character* card = this->getCardInDB(i);
+
+    cout << card->get_character_info() << endl;
+    cout << card->get_formulas_info() << endl;
 }
 
 void CardPackage::showTeam(){
     this->fighting_team.showFightingCardsName();
+}
+
+character* CardPackage::getCardInDB(int number_in_card_group){
+    int card_number = this->card_group.at(number_in_card_group);//get card's number
+    character* card = this->card_db->get_character(card_number);//get selected card
+
+    return card;
+}
+
+bool CardPackage::IsRemainNumberInCardGroup(int i){
+    //test if i is in the range of the card_group's size
+    if(! ((0 <= i) && ((unsigned int)i < this->card_group.size()) ))
+        return false;
+
+    if(i == this->fighting_team.getCard_1()->getnumber())
+        return false;
+    else if(i == this->fighting_team.getCard_2()->getnumber())
+        return false;
+    else if(i == this->fighting_team.getCard_3()->getnumber())
+        return false;
+    else
+        return true;
+}
+
+bool IsTwoNumberTheSame(int n1, int n2, int n3){
+    if(n1 == n2)
+        return false;
+    else if(n1 == n3)
+        return false;
+    else if(n2 == n3)
+        return false;
+    else
+        return true;
 }
