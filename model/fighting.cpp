@@ -1,5 +1,5 @@
 /******************************
-***  Update: 2014/08/01     ***
+***  Update: 2014/08/05     ***
 ***  By: bohunchen          ***
 ******************************/
 
@@ -7,12 +7,15 @@
 #include "function.h"
 #include "fighting.h"
 
+
 fight::fight(character* boss,character** card,int card_size){
     this->boss=boss;
 
     this->cards[0]=card[0];
     this->cards[1]=card[1];
     this->cards[2]=card[2];
+
+    flag=true;
 }
 
 void fight::setboss(){
@@ -35,6 +38,10 @@ void fight::setchallenger(){
     this->cards_special_cnt[2]=0;
 }
 
+void fight::setquiz(){
+    quiz= new class Quiz(boss->getname(),3);
+}
+
 void fight::set_attacking_card(int i){
     if(i>=1&&i<=3)
         this->num_of_attacking_card=i;
@@ -46,16 +53,7 @@ void fight::set_fomula(int i){
     this->num_of_fomula=i;
 }
 
-void fight::set_answer(int i){
-    this->num_of_challenger_answer=i;
-}
 
-void fight::set_question(int i){
-    /** waiting to complete **/
-    /** waiting to complete **/
-    /** waiting to complete **/
-    /** waiting to complete **/
-}
 
 void fight::show_boss_info(){
     cout<<boss->get_character_info()<<endl;
@@ -75,17 +73,7 @@ void fight::show_formulas_of_card(){
 }
 
 void fight::show_question(){
-    /** waiting to complete **/
-    /** waiting to complete **/
-    /** waiting to complete **/
-    /** waiting to complete **/
-}
-
-void fight::show_answer(){
-    /** waiting to complete **/
-    /** waiting to complete **/
-    /** waiting to complete **/
-    /** waiting to complete **/
+    quiz->showQuestionMessage();
 }
 
 int fight::getboss_num_of_fomula(){
@@ -146,7 +134,7 @@ void fight::show_challenger_attack(){
     boss_special_cnt++; /** boss_special_cnt++ **/
 }
 
-void fight::show_looser(){
+void fight::show_loser(){
     if(boss_hp_cnt<=0)
         cout<<boss->getattack_str()<<endl;
     else if(challenger_hp_cnt<=0)
@@ -164,7 +152,7 @@ void fight::show_current_state(){
     cout<<"[" << boss->getname() << "]  HP : "<< boss_hp_cnt<<+ "  MP :¡@"<<boss_mp_cnt<<" Special amount : "<<boss_special_cnt<<"\n";
     cout<<"[challenger]  HP : "<<challenger_hp_cnt<<"\n";
     if(IsBossGG()||IsChallengerGG())
-        show_looser();
+        show_loser();
 }
 
 bool fight::IsBossGG(){
@@ -182,15 +170,40 @@ bool fight::IsCardsFull(int i){
         return true;
     return false;
 }
-bool fight::IsTime_run_out(){
-    /** waiting to complete **/
-    /** waiting to complete **/
-    /** waiting to complete **/
-    /** waiting to complete **/
+
+
+void counting_func(int n){
+     while( flag && n-- ){
+        cout << "now remain " << n << " secound(s)" << endl;
+        this_thread::sleep_for (std::chrono::seconds(1));
+    }
+    flag = false;
 }
-bool fight::IsAC(){
-    /** waiting to complete **/
-    /** waiting to complete **/
-    /** waiting to complete **/
-    /** waiting to complete **/
+
+char waiting_answer(){
+    flag=true;
+    char s='x';
+    std::thread t(counting_func,10);
+    while( flag ){
+        if ( kbhit() != 0 ) {
+            s = getch();
+            cout<< s <<endl;
+            flag = false;
+        }
+    }
+    t.join();
+    return s;
+}
+
+void fight::show_answer(){
+   char c;
+   c=waiting_answer();
+   if(c=='x')  /** challenger didn't answer **/
+        quiz->showAnswerResult(false);
+   else
+        quiz->showAnswerResult(c);
+}
+
+void fight::next_problem(){
+    quiz->nextQuestion();
 }

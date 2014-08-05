@@ -1,22 +1,30 @@
 /******************************
-***  Update: 2014/07/28     ***
+***  Update: 2014/08/05     ***
 ***  By: bohunchen          ***
 ******************************/
 
 #ifndef FIGHTING_H_INCLUDED
 #define FIGHTING_H_INCLUDED
 
-#include <character_basic.h>
+#include "QuizModule.h"
+#include "function.h"
 #include <string>
 #include <iostream>
 #include <cstdio>
 #include <ctime>
+#include <thread>
+#include <conio.h>
+#include <chrono>
+
+static bool flag;
 
 class fight
 {
 private:
+
     character* boss;   /** boss info **/
     character* cards[3]; /** cards info **/
+    Quiz* quiz;
 
     int boss_hp,challenger_hp; /** total hp **/
     int boss_mp_cnt,cards_mp_cnt[3]; /**  current mp **/
@@ -28,26 +36,22 @@ private:
 
     int boss_special_cnt,cards_special_cnt[3];
 
-    clock_t startTime,endTime;
+
 
 public:
+
     fight(character* boss,character* card[3],int card_size);
     void setboss();
     void setchallenger();
+    void setquiz();
 
     void set_attacking_card(int i);
     void set_fomula(int i);
 
-    /**  Unfinished part **/
-    void set_question(int i);
-    /**********************/
-
-    void set_answer(int i);
-
     void show_boss_info(); /** info : name  ,description , hp , mp , special_amount **/
     void show_challenger_info();
 
-    void show_card_name(); /**  ex : ¥dµP¤@ : ¯äª¯ **/
+    void show_card_name();
     void show_card_info();
     void show_formulas_of_card();
 
@@ -57,13 +61,16 @@ public:
     void show_challenger_attack();
     void show_current_state();
     void show_special_power();
-    void show_looser(); /** show the losser's string **/
+    void show_loser(); /** show the loser's string **/
     void show_reward();
 
     int getboss_num_of_fomula();
 
 
-    bool IsTime_run_out();
+    void next_problem();
+
+
+
     bool IsAC();
     bool IsBossGG();
     bool IsChallengerGG();
@@ -75,5 +82,7 @@ protected:
 
 };
 
+void counting_func(int n);
+char waiting_answer();
 
 #endif // FIGHTING_H_INCLUDED
