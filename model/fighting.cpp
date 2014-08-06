@@ -3,8 +3,6 @@
 ***  By: bohunchen          ***
 ******************************/
 
-#include "character_basic.h"
-#include "function.h"
 #include "fighting.h"
 
 
@@ -44,13 +42,16 @@ void fight::setquiz(){
 
 void fight::set_attacking_card(int i){
     if(i>=1&&i<=3)
-        this->num_of_attacking_card=i;
+        this->num_of_attacking_card=i-1;
     else
-        cout<<"num_of_attacking error"<<endl;
+        cout<<"num_of_attacking : error ! "<<endl;
 }
 
-void fight::set_fomula(int i){
-    this->num_of_fomula=i;
+void fight::set_fomula(int i){  /**  pass range 1 ~ formula.size()**/
+    if( i>=1 && (unsigned int)i<cards[num_of_attacking_card]->getformulas().size() )
+        this->num_of_fomula=i-1;
+    else
+        cout<<"set_formula error"<<endl;
 }
 
 void fight::show_boss_info(){
@@ -62,12 +63,26 @@ void fight::show_card_name(){
         cout<<"[Card "<<i+1<<"] : "<<cards[i]->getname()<<endl;
 }
 
-void fight::show_card_info(int num_of_cards){
-    cout<<cards[num_of_cards]->get_character_info()<<endl;
+bool fight::show_card_info(int num_of_cards){
+    if(num_of_cards>=1&&num_of_cards<=3){
+        cout<<cards[num_of_cards-1]->get_character_info()<<endl;
+        return true;
+    }
+    else{
+        cout<<"show_card_info : error !"<<endl;
+        return false;
+    }
 }
 
-void fight::show_formulas_of_card(int num_of_cards){
-    cout<<cards[num_of_cards]->get_formulas_info()<<endl;
+bool fight::show_formulas_of_card(int num_of_cards){
+    if(num_of_cards>=1&&num_of_cards<=3){
+        cout<<cards[num_of_cards-1]->get_formulas_info()<<endl;
+        return true;
+    }
+    else{
+        cout<<"show_formulas_of_card : error !"<<endl;
+        return false;
+    }
 }
 
 void fight::show_question(){
@@ -83,17 +98,18 @@ int fight::getboss_num_of_formulas(){
 }
 
 void fight::show_boss_attack(){
-      /*[Boss] 對 [玩家] 使用 [攻擊招式]
-               [玩家]受到____點傷害！*/
-    string s = "";
-    vector<formulas*> vformulas;
-    class formulas *f = NULL;
-    vformulas=boss->getformulas();
 
-    f = vformulas[getboss_num_of_formulas()];
+    string s = "";
+    /*vector<formulas*> vformulas;
+    vformulas=boss->getformulas();
+    f = vformulas[getboss_num_of_formulas()];*/
+    class formulas *f = NULL;
+
+    f = ( boss->getformulas() )[getboss_num_of_formulas()];
 
     if( boss_mp_cnt < f->getmp_amount() ){  /** checking mp **/
-        f=vformulas[0];
+        /*f=vformulas[0];*/
+        f=( boss->getformulas() )[0];
     }
     if(getboss_num_of_formulas()==2){
         cout<<"[" << boss->getname() << "]  is out of control !!! "<<endl;
@@ -124,11 +140,11 @@ void fight::show_boss_attack(){
 
 bool fight::show_challenger_attack(){   /**  False means mp not enough ,and you have to choose formula again.**/
     string s = "";
-    vector<formulas*> vformulas;
-    class formulas *f = NULL;
+    /*vector<formulas*> vformulas;
     vformulas=cards[num_of_attacking_card-1]->getformulas();
-
-    f = vformulas[num_of_fomula-1];
+    f = vformulas[num_of_fomula-1];*/
+    class formulas *f = NULL;
+    f=( cards[num_of_attacking_card-1]->getformulas() )[num_of_fomula-1];
 
     if(f->getstatus()==1){
         if(!IsCardsFull(num_of_attacking_card-1) ){   /**checking special**/
@@ -167,7 +183,7 @@ bool fight::show_challenger_attack(){   /**  False means mp not enough ,and you 
 
 void fight::show_loser(){
     if(boss_hp_cnt<=0)
-        cout<<boss->getattack_str()<<endl;
+        cout<<boss->getdead_str()<<endl;
     else if(challenger_hp_cnt<=0)
         cout<<"Challenger GG..."<<endl;
 }
@@ -205,7 +221,6 @@ bool fight::IsCardsFull(int i){
     if(cards_special_cnt[i]==cards[i]->getspecial_amount()){
         return true;
     }
-
     return false;
 }
 
