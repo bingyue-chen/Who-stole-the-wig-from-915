@@ -1,5 +1,5 @@
 /******************************
-***  Update: 2014/08/05     ***
+***  Update: 2014/08/06     ***
 ***  By: bohunchen          ***
 ******************************/
 
@@ -53,8 +53,6 @@ void fight::set_fomula(int i){
     this->num_of_fomula=i;
 }
 
-
-
 void fight::show_boss_info(){
     cout<<boss->get_character_info()<<endl;
 }
@@ -64,12 +62,12 @@ void fight::show_card_name(){
         cout<<"[Card "<<i+1<<"] : "<<cards[i]->getname()<<endl;
 }
 
-void fight::show_card_info(){
-    cout<<cards[num_of_attacking_card]->get_character_info()<<endl;
+void fight::show_card_info(int num_of_cards){
+    cout<<cards[num_of_cards]->get_character_info()<<endl;
 }
 
-void fight::show_formulas_of_card(){
-    cout<<cards[num_of_attacking_card]->get_formulas_info()<<endl;
+void fight::show_formulas_of_card(int num_of_cards){
+    cout<<cards[num_of_cards]->get_formulas_info()<<endl;
 }
 
 void fight::show_question(){
@@ -77,7 +75,9 @@ void fight::show_question(){
 }
 
 int fight::getboss_num_of_formulas(){
-    if( boss_hp_cnt>(0.5*boss_hp) )
+    if(IsBossFull())
+        return 2;
+    else if( boss_hp_cnt>(0.5*boss_hp) )
         return 0;
     else return 1;
 }
@@ -93,8 +93,13 @@ void fight::show_boss_attack(){
     f = vformulas[getboss_num_of_formulas()];
 
     if( boss_mp_cnt < f->getmp_amount() ){  /** checking mp **/
-        f=vformulas[getboss_num_of_formulas()-1];
+        f=vformulas[0];
     }
+    if(getboss_num_of_formulas()==2){
+        cout<<"[" << boss->getname() << "]  is out of control !!! "<<endl;
+        boss_special_cnt=0;
+    }
+
     boss_mp_cnt-= f->getmp_amount(); /** mp cost **/
 
     s = boss->getname() + " using " + f->getname() + " to attack you "+ "\n";  /** show attack info**/
@@ -104,6 +109,8 @@ void fight::show_boss_attack(){
 
     s += "You were under attack by" + turn_int_to_string( f->getattack_amount() ) + " damage ! \n";
 
+    cout<<s;
+
     challenger_hp_cnt-=f->getattack_amount() ;  /** the attacked hp of challenger**/
     if(challenger_hp_cnt<=0)
         challenger_hp_cnt=0;
@@ -112,6 +119,7 @@ void fight::show_boss_attack(){
         if(!IsCardsFull(i))
             cards_special_cnt[i]++;
     }
+
 }
 
 bool fight::show_challenger_attack(){   /**  False means mp not enough ,and you have to choose formula again.**/
@@ -122,13 +130,23 @@ bool fight::show_challenger_attack(){   /**  False means mp not enough ,and you 
 
     f = vformulas[num_of_fomula-1];
 
-    if(f->getmp_amount()>cards_mp_cnt[num_of_attacking_card]){  /**checking mp**/
-        cout<<"The mp of cards isn't enough !"
-        return false;
+    if(f->getstatus()==1){
+        if(!IsCardsFull(num_of_attacking_card-1) ){   /**checking special**/
+            cout<<"The special amount of cards isn't enough !";
+            return false;
+        }
+        else{ /** Eruption ,and set special_cnt =0 **/
+            cout<<"[" << cards[num_of_attacking_card]->getname() << "]  is angry now !!! "<<endl;
+            cards_special_cnt[num_of_attacking_card]=0;
+        }
     }
-
-
-    cards_mp_cnt[num_of_attacking_card-1]-= f->getmp_amount(); /** mp cost **/
+    else{
+        if(f->getmp_amount()>cards_mp_cnt[num_of_attacking_card-1]){  /**checking mp**/
+            cout<<"The mp of cards isn't enough !";
+            return false;
+        }
+        cards_mp_cnt[num_of_attacking_card-1]-= f->getmp_amount(); /** mp cost **/
+    }
 
     s = cards[num_of_attacking_card-1]->getname() + " using " + f->getname() + " to attack "+boss->getname()+ "\n"; /** attack info**/
     if( cards[num_of_attacking_card-1]->getattack_str() != "" )
@@ -136,6 +154,8 @@ bool fight::show_challenger_attack(){   /**  False means mp not enough ,and you 
     s += "\n";
 
     s += boss->getname()+" were under attack by" + turn_int_to_string( f->getattack_amount() ) + " damage ! \n";
+
+    cout<<s;
 
     boss_hp_cnt-= f->getattack_amount();  /**  hp of boss cost **/
     if(boss_hp_cnt<=0)
@@ -162,6 +182,9 @@ void fight::show_reward(){
 void fight::show_current_state(){
     cout<<"[" << boss->getname() << "]  HP : "<< boss_hp_cnt<<+ "  MP :¡@"<<boss_mp_cnt<<" Special amount : "<<boss_special_cnt<<"\n";
     cout<<"[challenger]  HP : "<<challenger_hp_cnt<<"\n";
+    for(int i=0;i<3;i++){
+        cout<<"[" << cards[i]->getname() << "]  mp : "<<cards_mp_cnt[i]<<" Special amount : "<<cards_special_cnt[i]<<"\n";
+    }
     if(IsBossGG()||IsChallengerGG())
         show_loser();
 }
@@ -179,11 +202,12 @@ bool fight::IsBossFull(){
 }
 
 bool fight::IsCardsFull(int i){
-    if(cards_special_cnt[i]==cards[i]->getspecial_amount())
+    if(cards_special_cnt[i]==cards[i]->getspecial_amount()){
         return true;
+    }
+
     return false;
 }
-
 
 void counting_func(int n){
      while( flag && n-- ){
