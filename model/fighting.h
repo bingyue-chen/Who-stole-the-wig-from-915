@@ -1,5 +1,5 @@
 /******************************
-***  Update: 2014/08/05     ***
+***  Update: 2014/08/06     ***
 ***  By: bohunchen          ***
 ******************************/
 
@@ -52,13 +52,14 @@ public:
     void show_challenger_info();
 
     void show_card_name();
-    void show_card_info();
-    void show_formulas_of_card();
+    void show_card_info(int num_of_cards);
+    void show_formulas_of_card(int num_of_cards);
 
     void show_question();
     void show_answer();
     void show_boss_attack();
     bool show_challenger_attack();  /**  False means mp not enough ,and you have to choose formula again.**/
+
     void show_current_state();
     void show_special_power();
     void show_loser(); /** show the loser's string **/
@@ -66,17 +67,14 @@ public:
 
     int getboss_num_of_formulas();
 
-
     void next_problem();
-
-
 
     bool IsAC();
     bool IsBossGG();
     bool IsChallengerGG();
     bool IsBossFull();
     bool IsCardsFull(int i);
-    bool IsCardsMpEnough(int num_of_fomula,int num_of_attacking_card);
+
 
     ~fight();
 protected:
