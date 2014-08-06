@@ -1,5 +1,5 @@
 /******************************
-***  Update: 2014/07/26     ***
+***  Update: 2014/08/06     ***
 ***  By: snowcookie         ***
 ******************************/
 
@@ -20,10 +20,6 @@ private:
     int number,hp,mp,normal_attack_amount,special_amount;
     vector<formulas*> vformulas;
     class formulas* normal_attack;
-    bool check_hp();
-    bool check_mp( int use_mp_amount );
-    bool check_special_amount();
-    void attacked( int attacked_amount );
 
 public:
 
@@ -54,13 +50,10 @@ public:
     vector<formulas*> getformulas();
 
     void addformulas( formulas* f );
-    int check_can_attack( int select_formulas_number );
-    string attack( int select_formulas_number , class character *attacked_character );
 
     string get_character_info();
     string get_formulas_info();
-    string attack_info( int status );
-    string attacked_info( );
+
 };
 
 #endif // __CHARACTER_BASIC_H__

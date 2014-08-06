@@ -1,5 +1,5 @@
 /******************************
-***  Update: 2014/07/29     ***
+***  Update: 2014/08/06     ***
 ***  By: snowcookie         ***
 ******************************/
 
@@ -34,4 +34,12 @@ bool read_whole_file_to_stringstream( stringstream &ss , const char* filepath ){
     in.close();
 
     return true;
+}
+
+bool check_string_is_number( const string& s ){
+
+    string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+
 }

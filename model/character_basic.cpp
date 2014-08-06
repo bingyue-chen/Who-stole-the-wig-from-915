@@ -1,5 +1,5 @@
 /******************************
-***  Update: 2014/07/29     ***
+***  Update: 2014/08/06     ***
 ***  By: snowcookie         ***
 ******************************/
 
@@ -116,63 +116,6 @@ void character::addformulas( formulas* f){
     this->vformulas.push_back( f );
 }
 
-int character::check_can_attack( int select_formulas_number ){
-
-    class formulas *f = NULL;
-
-    if( this->hp <= 0 )
-        return 0;
-
-    if( select_formulas_number <= 0 || ( unsigned int )select_formulas_number > this->vformulas.size() )
-        return -1;
-
-    f = this->vformulas[select_formulas_number-1];
-
-    if( !this->check_mp( f->getmp_amount() ) )
-        return -2;
-
-    if( f->getstatus() == 1 && !this->check_special_amount() )
-        return -3;
-
-    return 1;
-
-}
-
-string character::attack( int select_formulas_number , class character *attacked_character ){
-
-    string s = "";
-
-    class formulas *f = NULL;
-
-    f = this->vformulas[select_formulas_number-1];
-
-    this->mp -= f->getmp_amount();
-    if( f->getstatus() == 1 )
-        this->special_amount -= 6;
-    attacked_character->attacked( f->getattack_amount() );
-    attacked_character->setspecial_amount( attacked_character->getspecial_amount() + 1 );
-
-    s = this->getname() + " using " + f->getname() + " to attack " + attacked_character->getname() + "\n";
-    if( this->attack_str != "" )
-        s += this->attack_str + "\n";
-    s += "\n";
-
-    s += attacked_character->getname() + " was " + turn_int_to_string( f->getattack_amount() ) + " damage\n";
-    if( attacked_character->getattacked_str() != "" )
-        s += attacked_character->getattacked_str() + "\n";
-    if( attacked_character->gethp() <= 0 && attacked_character->getdead_str() != "" )
-        s += attacked_character->getdead_str() + "\n";
-
-    return s;
-
-}
-
-void character::attacked( int attacked_amount ){
-
-    this->hp -= attacked_amount;
-    this->hp = this->hp < 0 ? 0 : this->hp;
-}
-
 string character::get_character_info(){
 
     string s = "";
@@ -195,30 +138,3 @@ string character::get_formulas_info(){
 
     return s;
 }
-
-string character::attack_info( int status ){
-
-    if( status == -1 )
-        return "select error number";
-    else if( status == -2 )
-        return "";
-    return "";
-}
-
-string character::attacked_info( ){
-    return "";
-}
-
-bool character::check_hp(){
-    return hp > 0;
-}
-
-bool character::check_mp( int use_mp_amount ){
-    return this->mp >= use_mp_amount;
-}
-
-bool character::check_special_amount(){
-    return this->special_amount >= 6;
-}
-
-
