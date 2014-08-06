@@ -5,8 +5,8 @@
 
 #ifndef FIGHTING_H_INCLUDED
 #define FIGHTING_H_INCLUDED
-
 #include "QuizModule.h"
+#include "character_basic.h"
 #include "function.h"
 #include <string>
 #include <iostream>
@@ -46,14 +46,14 @@ public:
     void setquiz();
 
     void set_attacking_card(int i);
-    void set_fomula(int i);
+    void set_fomula(int i); /**  pass range 1 ~ formula.size()**/
 
     void show_boss_info(); /** info : name  ,description , hp , mp , special_amount **/
     void show_challenger_info();
 
     void show_card_name();
-    void show_card_info(int num_of_cards);
-    void show_formulas_of_card(int num_of_cards);
+    bool show_card_info(int num_of_cards);
+    bool show_formulas_of_card(int num_of_cards);
 
     void show_question();
     void show_answer();
@@ -61,7 +61,7 @@ public:
     bool show_challenger_attack();  /**  False means mp not enough ,and you have to choose formula again.**/
 
     void show_current_state();
-    void show_special_power();
+
     void show_loser(); /** show the loser's string **/
     void show_reward();
 
@@ -69,7 +69,7 @@ public:
 
     void next_problem();
 
-    bool IsAC();
+
     bool IsBossGG();
     bool IsChallengerGG();
     bool IsBossFull();
